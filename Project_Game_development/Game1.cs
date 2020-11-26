@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Diagnostics;
 
 namespace Project_Game_development
 {
@@ -11,7 +12,12 @@ namespace Project_Game_development
         private SpriteBatch _spriteBatch;
 
         private Texture2D texture;
+        private Texture2D achtergrond;
+
+        Platform _platform;
         Hero hero;
+        Level1 level1;
+        CollisionManager collisionmanager;                
 
 
         public Game1()
@@ -23,6 +29,9 @@ namespace Project_Game_development
 
         protected override void Initialize()
         {
+            collisionmanager = new CollisionManager();                    
+            level1 = new Level1(Content);                   //
+            //level1.CreateWorld();                           //
             // TODO: Add your initialization logic here
             base.Initialize();
         }
@@ -33,6 +42,7 @@ namespace Project_Game_development
 
             // TODO: use this.Content to load your game content here
             texture = Content.Load<Texture2D>("sprite_project");
+            achtergrond = Content.Load <Texture2D>("sprite_project_background");
 
             InitializeGameObjects();
         }
@@ -40,6 +50,7 @@ namespace Project_Game_development
         private void InitializeGameObjects()
         {
             hero = new Hero(texture, new KeyBoardReader());               //Hero klasse opstarten
+            _platform = new Platform(level1.texture, level1.pos);                       
         }
 
         protected override void Update(GameTime gameTime)
@@ -48,6 +59,12 @@ namespace Project_Game_development
                 Exit();
 
             // TODO: Add your update logic here
+            if (collisionmanager.CheckCollision(hero.CollisionRectangle, _platform.CollisionRectangle))
+            {
+                Debug.WriteLine("Collision Detected!");
+                hero.Position += new Vector2(-1, 0)*5;
+            }
+
             hero.Update();        // Update doen van Hero
 
             base.Update(gameTime);
@@ -61,7 +78,9 @@ namespace Project_Game_development
 
             _spriteBatch.Begin();
 
+            _spriteBatch.Draw(achtergrond, new Vector2(0, 0), new Rectangle(0, 100, 800, 480), Color.White);
             hero.Draw(_spriteBatch);        // Draw
+            level1.DrawWorld(_spriteBatch);                                     //
 
             _spriteBatch.End();
 
