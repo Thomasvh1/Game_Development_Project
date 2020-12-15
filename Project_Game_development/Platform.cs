@@ -16,7 +16,7 @@ namespace Project_Game_development
         {
             _texture = texture;
             Positie = pos;
-            CollisionRectangle = new Rectangle((int)pos.X, (int)pos.Y, texture.Width, texture.Height);
+            CollisionRectangle = new Rectangle((int)pos.X, (int)pos.Y, texture.Width-7, texture.Height);
         }
 
         public void Draw(SpriteBatch spriteBatch)

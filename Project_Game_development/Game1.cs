@@ -14,6 +14,7 @@ namespace Project_Game_development
         private Texture2D texture;
         private Texture2D achtergrond;
 
+
         Platform _platform;
         Hero hero;
         Level1 level1;
@@ -61,8 +62,25 @@ namespace Project_Game_development
             // TODO: Add your update logic here
             if (collisionmanager.CheckCollision(hero.CollisionRectangle, _platform.CollisionRectangle))
             {
-                Debug.WriteLine("Collision Detected!");
-                hero.Position += new Vector2(-1, 0)*5;
+                if (hero.CollisionRectangle.X > _platform.CollisionRectangle.X)     // touching Right
+                {
+                    Debug.WriteLine("Right!");
+                    hero.Position += new Vector2(1, 0)*5;
+
+                }
+                if (hero.CollisionRectangle.X < _platform.CollisionRectangle.X)     // touching Left
+                {
+                    Debug.WriteLine("Left!");
+                    hero.Position += new Vector2(-1, 0)*5;
+
+                }
+                if(hero.CollisionRectangle.X > _platform.CollisionRectangle.X -50 && hero.CollisionRectangle.X < _platform.CollisionRectangle.X)
+                {
+                    Debug.WriteLine(_platform.CollisionRectangle.Top);
+                    Debug.WriteLine(hero.CollisionRectangle.Bottom);
+                    hero.Position += new Vector2(0,1) * 5;
+
+                }
             }
 
             hero.Update();        // Update doen van Hero

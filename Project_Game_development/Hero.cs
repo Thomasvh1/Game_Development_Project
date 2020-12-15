@@ -34,6 +34,7 @@ namespace Project_Game_development
 
         public Hero(Texture2D Texture, IInputReader reader)         // Iinputreader => hoe input uitlezen?
         {
+            Position = new Vector2(0, 335);
             //read input for hero class
             this.inputreader = reader;
             HeroTexture = Texture;
@@ -52,12 +53,11 @@ namespace Project_Game_development
 
 
             snelheid = new Vector2(1, 1);      // richting aangeven
-            //positie = new Vector2(100, 100);     // start positie
             versnelling = new Vector2(0.1f, 0.1f);
 
             movecommand = new MoveCommand();
 
-            collisionrectangle = new Rectangle((int)Position.X, (int)Position.Y,60, 341);
+            collisionrectangle = new Rectangle((int)Position.X, (int)Position.Y,68, 85);
 
         }
 
@@ -67,17 +67,18 @@ namespace Project_Game_development
             direction = inputreader.ReadInput();
 
             MoveHorizontal(direction);
-            MoveJump(direction);
+            MoveJump(Position);
 
             if (direction != Vector2.Zero)
                 animatie.Update();
 
             collisionrectangle.X = (int)Position.X;
+            collisionrectangle.Y = (int)Position.Y;
             CollisionRectangle = collisionrectangle;
 
         }
 
-        private void MoveJump(Vector2 _direction)
+        private void MoveJump(Vector2 pos)
         {
             movecommand.Jumping(this);
         }
@@ -104,7 +105,7 @@ namespace Project_Game_development
         {
 
             //_spriteBatch.Draw(HeroTexture, Position, animatie.CurrentFrame.SourceRectangle, Color.White);
-            _spriteBatch.Draw(HeroTexture, Position, animatie.CurrentFrame.SourceRectangle, Color.White, 44f, new Vector2(0,-335),1f,effect,0f);
+            _spriteBatch.Draw(HeroTexture, Position, animatie.CurrentFrame.SourceRectangle, Color.White, 44f, new Vector2(0,0),1f,effect,0f);
 
         }
     }

@@ -14,8 +14,6 @@ namespace Project_Game_development.Command
         public Vector2 speed;
         public Vector2 Power;
 
-
-        Vector2 position;
         Vector2 Velocity;
 
         bool Jumped;
@@ -61,8 +59,6 @@ namespace Project_Game_development.Command
 
         public void Jumping(ITransform transform)
         {
-
-            position += Velocity;
             transform.Position += Velocity;
 
             //if (Keyboard.GetState().IsKeyDown(Keys.Right))
@@ -84,7 +80,7 @@ namespace Project_Game_development.Command
                 float i = 1;
                 Velocity.Y += 0.15f * i;
             }
-            if (transform.Position.Y >= 0.1f)
+            if (transform.Position.Y >= 332)
             {
                 Jumped = false;
             }
