@@ -7,6 +7,6 @@ namespace Project_Game_development.Interfaces
 {
     public interface IInputReader
     {
-        Vector2 ReadInput();
+        Vector2 ReadInput(bool CanLeft, bool CanRight);
     }
 }

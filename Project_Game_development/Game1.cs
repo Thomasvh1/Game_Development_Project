@@ -18,8 +18,12 @@ namespace Project_Game_development
         Platform _platform;
         Hero hero;
         Level1 level1;
-        CollisionManager collisionmanager;                
+        CollisionManager collisionmanager;
 
+        public bool CanMoveLeft=true;
+        public bool CanMoveRight=true;
+        public bool CanJump=true;
+        public bool CanDown=true;
 
         public Game1()
         {
@@ -58,31 +62,43 @@ namespace Project_Game_development
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
             // TODO: Add your update logic here
             if (collisionmanager.CheckCollision(hero.CollisionRectangle, _platform.CollisionRectangle))
             {
                 if (hero.CollisionRectangle.X > _platform.CollisionRectangle.X)     // touching Right
                 {
                     Debug.WriteLine("Right!");
-                    hero.Position += new Vector2(1, 0)*5;
-
+                    CanMoveLeft = false;
+                    //hero.Position += new Vector2(1, 0) * 5;
+                    //collision = true;
                 }
-                if (hero.CollisionRectangle.X < _platform.CollisionRectangle.X)     // touching Left
+                if (hero.CollisionRectangle.X < _platform.CollisionRectangle.X-50)     // touching Left
                 {
                     Debug.WriteLine("Left!");
-                    hero.Position += new Vector2(-1, 0)*5;
-
+                    CanMoveRight = false;
+                    //hero.Position += new Vector2(-1, 0) * 5;
+                    //collision = true;
                 }
-                if(hero.CollisionRectangle.X > _platform.CollisionRectangle.X -50 && hero.CollisionRectangle.X < _platform.CollisionRectangle.X)
-                {
-                    Debug.WriteLine(_platform.CollisionRectangle.Top);
-                    Debug.WriteLine(hero.CollisionRectangle.Bottom);
-                    hero.Position += new Vector2(0,1) * 5;
 
+                if (hero.CollisionRectangle.X > _platform.CollisionRectangle.X - 50 && hero.CollisionRectangle.X < _platform.CollisionRectangle.X &&
+                    hero.CollisionRectangle.Y < _platform.CollisionRectangle.Y)
+                {
+                    Debug.WriteLine("Top!");
+                    CanMoveLeft = true;
+                    CanMoveRight = true;
+                    CanDown = false;
+                    //hero.Position += new Vector2(1, -1) * 5;
+                    //collision = true;
                 }
             }
-
+            else
+            {
+                CanMoveRight = true;
+                CanMoveLeft = true;
+                CanDown = true;
+                CanJump = true;
+            }
+            hero.SetCollision(CanMoveLeft, CanMoveRight, CanDown, CanJump);
             hero.Update();        // Update doen van Hero
 
             base.Update(gameTime);

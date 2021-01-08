@@ -11,6 +11,6 @@ namespace Project_Game_development.Command
     {
         void Execute(ITransform transform, Vector2 direction);
         SpriteEffects Direction();
-        void Jumping(ITransform transform);
+        void Jumping(ITransform transform, bool CanDown, bool CanJump);
     }
 }

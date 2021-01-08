@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Project_Game_development.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Project_Game_development.Command
@@ -24,19 +25,18 @@ namespace Project_Game_development.Command
             this.speed = new Vector2(5, 0);         // snelheid bewegen
             this.Power = new Vector2(0, -10);
         }
-        public void Execute(ITransform transform, Vector2 direction)
+        public void Execute(ITransform transform, Vector2 direction) 
         {
             direction *= speed;
             if (transform.Position.X >= 740)
             {
-                transform.Position += new Vector2(-1, 0);
+                transform.Position += new Vector2(-1, 0)*5;
             }
-            else if(transform.Position.X < 0)
+            else if (transform.Position.X < 0)
             {
-                transform.Position += new Vector2(1, 0);
+                transform.Position += new Vector2(1, 0)*5;
             }
-            else
-                transform.Position += direction;
+            transform.Position += direction;
 
         }
 
@@ -57,7 +57,7 @@ namespace Project_Game_development.Command
             return s;
         }
 
-        public void Jumping(ITransform transform)
+        public void Jumping(ITransform transform, bool CanDown, bool CanJump)
         {
             transform.Position += Velocity;
 
@@ -80,7 +80,7 @@ namespace Project_Game_development.Command
                 float i = 1;
                 Velocity.Y += 0.15f * i;
             }
-            if (transform.Position.Y >= 332)
+            if (transform.Position.Y >= 332 || CanDown == false)    //332 = grond level
             {
                 Jumped = false;
             }

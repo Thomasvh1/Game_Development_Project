@@ -5,6 +5,7 @@ using Project_Game_development.Command;
 using Project_Game_development.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Project_Game_development
@@ -16,6 +17,7 @@ namespace Project_Game_development
 
         Texture2D HeroTexture;
         Animatie animatie;
+
         private IInputReader inputreader;
         private Vector2 direction;
         public Vector2 Position { get; set; }   // positie implementeren (interface)
@@ -24,13 +26,15 @@ namespace Project_Game_development
 
         KeyboardState state = Keyboard.GetState();
 
-
-
         //private Vector2 positie;
         private Vector2 snelheid;
         private Vector2 versnelling;
 
         private IGameCommand movecommand;
+        private bool CanLeft;
+        private bool CanRight;
+        private bool CanUp;
+        private bool CanDown;
 
         public Hero(Texture2D Texture, IInputReader reader)         // Iinputreader => hoe input uitlezen?
         {
@@ -64,7 +68,7 @@ namespace Project_Game_development
         public void Update()
         {
 
-            direction = inputreader.ReadInput();
+            direction = inputreader.ReadInput(CanLeft, CanRight);
 
             MoveHorizontal(direction);
             MoveJump(Position);
@@ -80,14 +84,21 @@ namespace Project_Game_development
 
         private void MoveJump(Vector2 pos)
         {
-            movecommand.Jumping(this);
+            movecommand.Jumping(this, CanDown, CanUp);
+        }
+
+        public void SetCollision(bool Left, bool Right, bool Down, bool Up)
+        {
+            CanLeft = Left;
+            CanRight = Right;
+            CanUp = Up;
+            CanDown = Down;
         }
 
         private void MoveHorizontal(Vector2 _direction)
         {
             movecommand.Execute(this, _direction);
             effect = movecommand.Direction();
-
         }
         private Vector2 Limit(Vector2 v, float max)
         {
