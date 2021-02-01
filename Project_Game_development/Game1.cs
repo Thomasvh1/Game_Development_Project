@@ -14,16 +14,12 @@ namespace Project_Game_development
         private Texture2D texture;
         private Texture2D achtergrond;
 
-
+        Crystal crystal;
+        Door door;
         Platform _platform;
         Hero hero;
         Level1 level1;
         CollisionManager collisionmanager;
-
-        public bool CanMoveLeft=true;
-        public bool CanMoveRight=true;
-        public bool CanJump=true;
-        public bool CanDown=true;
 
         public Game1()
         {
@@ -36,7 +32,7 @@ namespace Project_Game_development
         {
             collisionmanager = new CollisionManager();                    
             level1 = new Level1(Content);                   //
-            //level1.CreateWorld();                           //
+            level1.CreateWorld();                           //
             // TODO: Add your initialization logic here
             base.Initialize();
         }
@@ -55,51 +51,24 @@ namespace Project_Game_development
         private void InitializeGameObjects()
         {
             hero = new Hero(texture, new KeyBoardReader());               //Hero klasse opstarten
-            _platform = new Platform(level1.texture, level1.pos);                       
+            _platform = new Platform(level1.Platformtexture, level1.Blokken);
+            door = new Door(level1.Doortexture, level1.PosDoor);
+            crystal = new Crystal(level1.Crystaltexture, level1.PosCrystal);
         }
 
         protected override void Update(GameTime gameTime)
         {
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
-            if (collisionmanager.CheckCollision(hero.CollisionRectangle, _platform.CollisionRectangle))
-            {
-                if (hero.CollisionRectangle.X > _platform.CollisionRectangle.X)     // touching Right
-                {
-                    Debug.WriteLine("Right!");
-                    CanMoveLeft = false;
-                    //hero.Position += new Vector2(1, 0) * 5;
-                    //collision = true;
-                }
-                if (hero.CollisionRectangle.X < _platform.CollisionRectangle.X-50)     // touching Left
-                {
-                    Debug.WriteLine("Left!");
-                    CanMoveRight = false;
-                    //hero.Position += new Vector2(-1, 0) * 5;
-                    //collision = true;
-                }
 
-                if (hero.CollisionRectangle.X > _platform.CollisionRectangle.X - 50 && hero.CollisionRectangle.X < _platform.CollisionRectangle.X &&
-                    hero.CollisionRectangle.Y < _platform.CollisionRectangle.Y)
-                {
-                    Debug.WriteLine("Top!");
-                    CanMoveLeft = true;
-                    CanMoveRight = true;
-                    CanDown = false;
-                    //hero.Position += new Vector2(1, -1) * 5;
-                    //collision = true;
-                }
-            }
-            else
-            {
-                CanMoveRight = true;
-                CanMoveLeft = true;
-                CanDown = true;
-                CanJump = true;
-            }
-            hero.SetCollision(CanMoveLeft, CanMoveRight, CanDown, CanJump);
+            collisionmanager.ColissionPlatforms(hero, level1);
+
+
+            door.Update();
             hero.Update();        // Update doen van Hero
+            crystal.Update();
 
             base.Update(gameTime);
         }
@@ -114,7 +83,7 @@ namespace Project_Game_development
 
             _spriteBatch.Draw(achtergrond, new Vector2(0, 0), new Rectangle(0, 100, 800, 480), Color.White);
             hero.Draw(_spriteBatch);        // Draw
-            level1.DrawWorld(_spriteBatch);                                     //
+            level1.Draw(_spriteBatch);                                     //
 
             _spriteBatch.End();
 

@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Project_Game_development.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Project_Game_development
 {
-    public class Platform
+    public class Platform : IGameObject
     {
         public Texture2D _texture { get; set; }
         public Vector2 Positie { get; set; }
@@ -22,6 +23,11 @@ namespace Project_Game_development
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_texture, Positie, Color.AliceBlue);
+        }
+
+        public void Update()
+        {
+            //
         }
     }
 }
