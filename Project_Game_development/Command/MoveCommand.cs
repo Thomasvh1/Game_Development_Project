@@ -18,6 +18,7 @@ namespace Project_Game_development.Command
         Vector2 Velocity;
 
         bool Jumped;
+        public bool Side = false;
 
 
         public MoveCommand()
@@ -30,25 +31,29 @@ namespace Project_Game_development.Command
             direction *= speed;
             if (transform.Position.X >= 740)
             {
-                transform.Position += new Vector2(-1, 0)*5;
+                transform.Position += new Vector2(-1, 0) * 5;
+                Side = true;
             }
             else if (transform.Position.X < 0)
             {
-                transform.Position += new Vector2(1, 0)*5;
+                transform.Position += new Vector2(1, 0) * 5;
+                Side = true;
             }
+            else
+                Side = false;
             transform.Position += direction;
 
         }
 
-        public SpriteEffects Direction()
+        public SpriteEffects Direction(Vector2 goingleft)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            if (goingleft.X == -1)
             {
                 s = SpriteEffects.FlipHorizontally;
                 //frame flip
                 return s;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            else if (goingleft.X == 1)
             {
                 s = SpriteEffects.None;
                 //normale frame

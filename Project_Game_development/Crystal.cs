@@ -14,20 +14,26 @@ namespace Project_Game_development
 
         Vector2 position;
 
+        public Rectangle CollisionRectangle { get; set; }
+
+
         public Crystal(Texture2D texture, Vector2 pos)
         {
             _texture = texture;
             position = pos;
             animatie = new Animatie();
 
-            animatie.AddFrame(new AnimationFrame(new Rectangle(1, 1, _texture.Width /6 -6, _texture.Height/6)));     // 107,160
-            animatie.AddFrame(new AnimationFrame(new Rectangle(107, 1, _texture.Width / 6, _texture.Height/6)));     // frame lopend
-            animatie.AddFrame(new AnimationFrame(new Rectangle(217, 1, _texture.Width / 6, _texture.Height/6)));     // frame lopend
-            animatie.AddFrame(new AnimationFrame(new Rectangle(321, 1, _texture.Width / 6, _texture.Height/6)));     // frame lopend
-            animatie.AddFrame(new AnimationFrame(new Rectangle(428, 1, _texture.Width / 6, _texture.Height/6)));     // frame lopend
-            animatie.AddFrame(new AnimationFrame(new Rectangle(535, 1, _texture.Width / 6, _texture.Height/6)));     // frame lopend
-            animatie.AddFrame(new AnimationFrame(new Rectangle(428, 1, _texture.Width / 6, _texture.Height/6)));     // frame lopend
-            animatie.AddFrame(new AnimationFrame(new Rectangle(535, 1, _texture.Width / 6, _texture.Height/6)));     // frame lopend
+            animatie.AddFrame(new AnimationFrame(new Rectangle(1, 1, _texture.Width /6-10, _texture.Height)));     // 107,160
+            animatie.AddFrame(new AnimationFrame(new Rectangle(106, 1, _texture.Width / 6-10, _texture.Height)));     // frame lopend
+            animatie.AddFrame(new AnimationFrame(new Rectangle(212, 1, _texture.Width / 6-10, _texture.Height)));     // frame lopend
+            animatie.AddFrame(new AnimationFrame(new Rectangle(318, 1, _texture.Width / 6-10, _texture.Height)));     // frame lopend
+            animatie.AddFrame(new AnimationFrame(new Rectangle(424, 1, _texture.Width / 6-10, _texture.Height)));     // frame lopend
+            animatie.AddFrame(new AnimationFrame(new Rectangle(530, 1, _texture.Width / 6-10, _texture.Height)));     // frame lopend
+            animatie.AddFrame(new AnimationFrame(new Rectangle(636, 1, _texture.Width / 6-10, _texture.Height)));     // frame lopend
+            animatie.AddFrame(new AnimationFrame(new Rectangle(742, 1, _texture.Width / 6-10, _texture.Height)));     // frame lopend
+
+            CollisionRectangle = new Rectangle((int)pos.X, (int)pos.Y, texture.Width, texture.Height);
+
         }
         public void Draw(SpriteBatch _spritebatch)
         {

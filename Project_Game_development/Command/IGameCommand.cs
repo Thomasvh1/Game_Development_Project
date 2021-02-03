@@ -10,7 +10,7 @@ namespace Project_Game_development.Command
     interface IGameCommand
     {
         void Execute(ITransform transform, Vector2 direction);
-        SpriteEffects Direction();
+        SpriteEffects Direction(Vector2 goingleft);
         void Jumping(ITransform transform, bool CanDown, bool CanJump);
     }
 }

@@ -24,11 +24,8 @@ namespace Project_Game_development
         public Rectangle CollisionRectangle { get; set; }
         private Rectangle collisionrectangle;
 
-        KeyboardState state = Keyboard.GetState();
-
-        //private Vector2 positie;
-        private Vector2 snelheid;
-        private Vector2 versnelling;
+        //KeyboardState state = Keyboard.GetState();
+        KeyBoardReader keyb;
 
         private IGameCommand movecommand;
         private bool CanLeft;
@@ -43,6 +40,7 @@ namespace Project_Game_development
             this.inputreader = reader;
             HeroTexture = Texture;
             animatie = new Animatie();
+            keyb = new KeyBoardReader();
 
             int SchuifX = 0;
             int SchuifY = 0;
@@ -53,11 +51,6 @@ namespace Project_Game_development
                 SchuifX = animatie.BerekenX();
                 SchuifY = animatie.BerekenY();
             }
-
-
-
-            snelheid = new Vector2(1, 1);      // richting aangeven
-            versnelling = new Vector2(0.1f, 0.1f);
 
             movecommand = new MoveCommand();
 
@@ -98,19 +91,19 @@ namespace Project_Game_development
         private void MoveHorizontal(Vector2 _direction)
         {
             movecommand.Execute(this, _direction);
-            effect = movecommand.Direction();
+            effect = movecommand.Direction(_direction);
         }
-        private Vector2 Limit(Vector2 v, float max)
-        {
-            if (v.Length() > max)
-            {
-                var ratio = max / v.Length();
-                v.X *= ratio;
-                v.Y *= ratio;
-            }
+        //private Vector2 Limit(Vector2 v, float max)
+        //{
+        //    if (v.Length() > max)
+        //    {
+        //        var ratio = max / v.Length();
+        //        v.X *= ratio;
+        //        v.Y *= ratio;
+        //    }
 
-            return v;
-        }
+        //    return v;
+        //}
 
         public void Draw(SpriteBatch _spriteBatch)
         {

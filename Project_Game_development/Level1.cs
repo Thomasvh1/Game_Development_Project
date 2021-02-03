@@ -8,8 +8,9 @@ using System.Text;
 
 namespace Project_Game_development
 {
-    class Level1
+    class Level1 : IGameObject
     {
+        private Texture2D Background;
         public Texture2D Platformtexture;
         public Texture2D Doortexture;
         public Texture2D Crystaltexture;
@@ -21,6 +22,7 @@ namespace Project_Game_development
 
         public static int row = 4;
         public static int column = 8;
+        public bool HasCrystal = false;
 
         public byte[,] tileArray = new Byte[,]
         {
@@ -48,11 +50,15 @@ namespace Project_Game_development
 
         private void InitializeContent()
         {
+            Background = content.Load<Texture2D>("sprite_project_background");
             Platformtexture = content.Load<Texture2D>("resized");
             Doortexture = content.Load<Texture2D>("door");
             Crystaltexture = content.Load<Texture2D>("crystal");
         }
-
+        public void TakeCrystal()
+        {
+            HasCrystal = true;
+        }
         public void CreateWorld()
         {
             for (int x = 0; x < row; x++)
@@ -71,6 +77,8 @@ namespace Project_Game_development
 
         public void Draw(SpriteBatch spritebatch)
         {
+            spritebatch.Draw(Background, new Vector2(0, 0), new Rectangle(0, 100, 800, 480), Color.White);
+
             for (int x = 0; x < row; x++)
             {
                 for (int y = 0; y < column; y++)
@@ -82,8 +90,14 @@ namespace Project_Game_development
                 }
             }
             door.Draw(spritebatch);
-            crystal.Draw(spritebatch);
+            if (HasCrystal == false)
+                crystal.Draw(spritebatch);
             //blok.Draw(spritebatch);                 //
+        }
+
+        public void Update()
+        {
+            //
         }
     }
 }

@@ -77,5 +77,13 @@ namespace Project_Game_development
                 }
             }
         }
+        public bool CollisionEnemy(Hero hero, Enemy enemy)
+        {
+            if(CheckCollision(hero.CollisionRectangle, enemy.CollisionRectangle))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

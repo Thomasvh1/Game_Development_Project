@@ -13,7 +13,6 @@ namespace Project_Game_development
         Texture2D _texture;
         Vector2 position;
         Animatie animatie;
-        private bool DoorOpen = false;
         public Door(Texture2D texture, Vector2 pos)
         {
             _texture = texture;
